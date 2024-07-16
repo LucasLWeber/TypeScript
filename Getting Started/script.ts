@@ -35,7 +35,6 @@ function transformarPreco(produto: {nome: string; preco: string}){
 }
 
 const produtoNovo = transformarPreco(nintendo);
-console.log(produtoNovo);
 
 // Exercicios
 // Exercicio 1 - Corrigir bugs
@@ -62,6 +61,7 @@ function totalMudou(){
 	if (input){
 		localStorage.setItem("total", input.value);
 		calcularGanho(Number(input.value));
+		console.log("calc")
 	}
 }
 if (input)
@@ -119,3 +119,105 @@ function toNumber(value: number | string){
 	else 
 		throw "value must be number | string";
 }
+
+// AULA 4 - Types e Interfaces
+
+// Type customizado
+type NumberOrString = number | string;
+let teste: NumberOrString = 10;
+teste = "teste";
+
+// Interface customizada -- Preferir interfaces para criação de objetos
+interface Produto {
+	nome: string;
+	preco: number;
+	teclado: boolean
+}
+
+function preencherDados(dados: Produto){
+	document.body.innerHTML += `
+		<hr>
+		<div>
+			<h2>${dados.nome}</h2>
+			<p>${dados.preco}</p>
+			<p>Inclui teclado: ${dados.teclado ? 'sim' : 'não'}</p>
+		</div>	
+	`
+}
+
+const computador: Produto = {
+	nome: "Computador",
+	preco: 2000,
+	teclado: true
+}
+
+const notebook: Produto = {
+	nome: "Notebook",
+	preco: 2500,
+	teclado: false
+}
+
+preencherDados(computador);
+preencherDados(notebook);
+
+// Exercicio
+// Defina a interface da API e mostre os dados na tela
+/*
+
+async function fetchProduct() {
+  const response = await fetch('https://api.origamid.dev/json/notebook.json');
+  const data = await response.json();
+  showProduct(data);
+}
+
+fetchProduct();
+
+function showProduct(data) {
+  document.body.innerHTML = `
+    <div>
+      <h2>${data.name}</h2>
+    </div>
+  `;
+}
+
+*/
+
+interface Empresa {
+	nome: string;
+	fundacao: number;
+	pais: string
+}
+interface ProdutoData {
+	nome: string;
+	preco: number;
+	descricao: string;
+	garantia: string;
+	seguroAcidentes: boolean;
+	empresaFabricante: Empresa;
+	empresaMontadora: Empresa
+}
+
+async function fetchProduct(){
+	const response = await fetch('https://api.origamid.dev/json/notebook.json');
+	const data = await response.json();
+	showProduct(data);
+}
+
+function showProduct(data: ProdutoData){
+	document.body.innerHTML += `
+		<hr>
+		<div>
+			<h2>${data.nome}</h2>
+			<p>R$ ${data.preco}</p>
+			<p>${data.descricao}</p>
+			<div>
+				<h4>Fabricante ${data.empresaFabricante.nome}</h4>
+			</div>
+			<div>
+				<h4>Montadora ${data.empresaMontadora.nome}</h4>
+			</div>
+		</div>
+	`
+}
+
+fetchProduct();

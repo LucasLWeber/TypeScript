@@ -25,7 +25,6 @@ function transformarPreco(produto) {
     return produto;
 }
 const produtoNovo = transformarPreco(nintendo);
-console.log(produtoNovo);
 // Exercicios
 // Exercicio 1 - Corrigir bugs
 function normalizarTexto(texto) {
@@ -47,6 +46,7 @@ function totalMudou() {
     if (input) {
         localStorage.setItem("total", input.value);
         calcularGanho(Number(input.value));
+        console.log("calc");
     }
 }
 if (input)
@@ -96,3 +96,49 @@ function toNumber(value) {
     else
         throw "value must be number | string";
 }
+let teste = 10;
+teste = "teste";
+function preencherDados(dados) {
+    document.body.innerHTML += `
+		<hr>
+		<div>
+			<h2>${dados.nome}</h2>
+			<p>${dados.preco}</p>
+			<p>Inclui teclado: ${dados.teclado ? 'sim' : 'não'}</p>
+		</div>	
+	`;
+}
+const computador = {
+    nome: "Computador",
+    preco: 2000,
+    teclado: true
+};
+const notebook = {
+    nome: "Notebook",
+    preco: 2500,
+    teclado: false
+};
+preencherDados(computador);
+preencherDados(notebook);
+async function fetchProduct() {
+    const response = await fetch('https://api.origamid.dev/json/notebook.json');
+    const data = await response.json();
+    showProduct(data);
+}
+function showProduct(data) {
+    document.body.innerHTML += `
+		<hr>
+		<div>
+			<h2>${data.nome}</h2>
+			<p>R$ ${data.preco}</p>
+			<p>${data.descricao}</p>
+			<div>
+				<h4>Fabricante ${data.empresaFabricante.nome}</h4>
+			</div>
+			<div>
+				<h4>Montadora ${data.empresaMontadora.nome}</h4>
+			</div>
+		</div>
+	`;
+}
+fetchProduct();

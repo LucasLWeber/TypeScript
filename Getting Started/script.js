@@ -142,3 +142,44 @@ function showProduct(data) {
 	`;
 }
 fetchProduct();
+// AULA 5 - Arrays
+const numeros = [10, 20, 30, 40, 50];
+const valores = [10, 'taxas', 30, 'produtos', 50];
+function maiorQueDez(data) {
+    return data.filter((n) => n > 10);
+}
+function filtrarValores(data) {
+    return data.filter((item) => typeof item === 'number');
+}
+console.log(maiorQueDez(numeros));
+console.log(filtrarValores(valores));
+async function fetchCursos() {
+    const response = await fetch('https://api.origamid.dev/json/cursos.json');
+    const data = await response.json();
+    mostrarCursos(data);
+}
+fetchCursos();
+function mostrarCursos(cursos) {
+    cursos.forEach(curso => {
+        let cor;
+        curso.nivel === 'iniciante' ? cor = 'blue' : cor = 'red';
+        document.body.innerHTML +=
+            `
+		<hr>
+		<div>
+			<h2 style="color: ${cor};">${curso.nome}</h2>
+			<p>Horas: ${curso.horas}</p>
+			<p>Tipo: ${curso.gratuito ? 'Gratuito' : 'Pago'}</p>
+			<p>Tags: ${curso.tags.join(', ')}</p>
+			<p>Aulas: ${curso.idAulas.join(' | ')}</p>
+		</div>
+		`;
+    });
+}
+// AULA 6 - Any
+// Não usar -> usar any em TypeScript é a mesma coisa que codar js vanilla
+function normalizar(text) {
+    return text.trim().toLowerCase();
+}
+console.log(normalizar("   DesIng"));
+console.log(normalizar(10)); // erro

@@ -127,3 +127,99 @@ function toggleMenu(e: PointerEvent) {
 }
 
 document.querySelector('#btn-mobile')?.addEventListener('pointerdown', toggleMenu as EventListener);
+
+/* Generics */
+function retorno<variavel>(a: variavel): variavel{
+	return a;
+}
+
+/* console.log(retorno<string>("A game"));
+console.log(retorno<number>(200)); */
+
+const numeros = [1, 2, 3, 4, 5, 6, 7, 8];
+const frutas = ["Banana", "Pera", "Uva", "Morango", "Abacate", "Maçã"];
+
+function firstFive<T>(lista: T[]) {
+	return lista.slice(0, 5);
+}
+
+/* console.log(firstFive(frutas)); */
+
+function notNull<T>(arg: T) {
+	return arg !== null ? arg : null;
+}
+
+function tipoDado<T>(arg: T){
+	const resultado = {
+		dado: arg,
+		tipo: typeof arg
+	};
+	return resultado;
+}
+
+function extractText<T extends HTMLElement>(el: T) {
+	return {
+		text: el.innerHTML,
+		el
+	}
+}
+/*  const link = document.querySelector('a');
+if (link)
+	console.log(extractText(link)); */
+
+// Recriando seletor JQuery com TS
+
+function $<T extends Element>(selector: string) : T | null {
+	return document.querySelector(selector);
+}
+
+const link = $<HTMLAnchorElement>('a')?.href;
+
+async function getData<T>(url: string) : Promise<T>{
+	const response = await fetch(url);
+	return await response.json();
+}
+
+interface Notebook {
+	nome: string;
+	preco: number;
+}
+
+async function handleData() {
+	const notebook = await getData<Notebook>('https://api.origamid.dev/json/notebook.json');
+	console.log(notebook);
+}
+
+/* Functions */
+
+function abort(message: string): never {
+	throw new Error(message);
+}
+
+/* abort("Ocorreu um erro");
+console.log("Tente novamente");*/ // retorno never cancela o restante do programa, essa linha nunca será executada
+
+// Function overload
+// Ao compilar as functios que contêm apenas a notação são descartados, porém assim garante-se a segurança de tipo
+function normalizar(valor: string): string;
+function normalizar(valor: string[]): string[];
+function normalizar(valor: string | string[]): string | string[] {
+	if (typeof valor === 'string' )
+		return valor.trim().toLocaleLowerCase();
+	else 
+ 		return valor.map(item => item.trim().toLocaleLowerCase());
+}
+
+/* console.log(normalizar("BananAAAAA "));
+console.log(normalizar(["BananAAAAA ", "  UVA"])); */
+
+// Crie uma função que arredonda um valor passado para cima.
+// A função pode receber string ou number.
+// A função deve retornar o mesmo tipo que ela receber.
+
+function arredondaParaCima(arg: string): string;
+function arredondaParaCima(arg: number): number;
+function arredondaParaCima(arg: string | number): string | number{
+	return typeof arg === 'number' ? Math.ceil(arg) : Math.ceil(+arg).toString();
+}
+/* console.log(arredondaParaCima('11.21314')) */

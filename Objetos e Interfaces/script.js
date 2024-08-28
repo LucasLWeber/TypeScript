@@ -97,3 +97,61 @@ function toggleMenu(e) {
     }
 }
 document.querySelector('#btn-mobile')?.addEventListener('pointerdown', toggleMenu);
+/* Generics */
+function retorno(a) {
+    return a;
+}
+/* console.log(retorno<string>("A game"));
+console.log(retorno<number>(200)); */
+const numeros = [1, 2, 3, 4, 5, 6, 7, 8];
+const frutas = ["Banana", "Pera", "Uva", "Morango", "Abacate", "Maçã"];
+function firstFive(lista) {
+    return lista.slice(0, 5);
+}
+/* console.log(firstFive(frutas)); */
+function notNull(arg) {
+    return arg !== null ? arg : null;
+}
+function tipoDado(arg) {
+    const resultado = {
+        dado: arg,
+        tipo: typeof arg
+    };
+    return resultado;
+}
+function extractText(el) {
+    return {
+        text: el.innerHTML,
+        el
+    };
+}
+/*  const link = document.querySelector('a');
+if (link)
+    console.log(extractText(link)); */
+// Recriando seletor JQuery com TS
+function $(selector) {
+    return document.querySelector(selector);
+}
+const link = $('a')?.href;
+async function getData(url) {
+    const response = await fetch(url);
+    return await response.json();
+}
+async function handleData() {
+    const notebook = await getData('https://api.origamid.dev/json/notebook.json');
+    console.log(notebook);
+}
+/* Functions */
+function abort(message) {
+    throw new Error(message);
+}
+function normalizar(valor) {
+    if (typeof valor === 'string')
+        return valor.trim().toLocaleLowerCase();
+    else
+        return valor.map(item => item.trim().toLocaleLowerCase());
+}
+function arredondaParaCima(arg) {
+    return typeof arg === 'number' ? Math.ceil(arg) : Math.ceil(+arg).toString();
+}
+/* console.log(arredondaParaCima('11.21314')) */

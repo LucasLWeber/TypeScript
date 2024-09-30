@@ -223,3 +223,55 @@ function arredondaParaCima(arg: string | number): string | number{
 	return typeof arg === 'number' ? Math.ceil(arg) : Math.ceil(+arg).toString();
 }
 /* console.log(arredondaParaCima('11.21314')) */
+
+
+// Exercício Type Guard
+// 1 - Faça um fetch da API: https://api.origamid.dev/json/cursos.json
+// 2 - Defina a interface da API
+// 3 - Crie um Type Guard, que garanta que a API possui nome, horas e tags
+// 4 - Use Type Guards para garantir a Type Safety do código
+// 5 - Preencha os dados da API na tela.
+
+
+interface Curso {
+	nome: string;
+	horas: number;
+	aulas: number;
+	gratuito: boolean;
+	tags: string[];
+	idAulas: number[];
+	nivel: 'iniciante' | 'avançado';
+  }
+
+async function fetchCursos(){
+	const response = await fetch('https://api.origamid.dev/json/cursos.json');
+	const data = response.json();
+	handleCursos(data);
+}
+
+fetchCursos();
+
+function isCurso(curso: unknown): curso is Curso {
+	if (
+		curso &&
+		typeof curso === 'object' &&
+		'nome' in curso
+	) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function handleCursos(data: unknown) {
+	if(Array.isArray(data))
+		data.filter(item => isCurso(item)).forEach(item => document.body.innerHTML += `
+			<h2>Nome: ${item.nome}</h2>
+			<p>Horas: ${item.horas}</p>
+			<span>Nível: ${item.nivel}</span>
+			`)
+}
+
+// Type Assertion
+
+

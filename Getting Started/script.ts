@@ -287,5 +287,15 @@ function normalizar(text: any){
 console.log(normalizar("   DesIng"));
 console.log(normalizar(10)); // erro
 
+// AULA 7 - Null e Undefined
+interface Product {
+	nome?: string
+}
 
+const jogo : Product = {
+	nome: "Ragnarok"
+}
+
+// Opcional Chaining -> autocomplete coloca automaticamente por causa do modo estrito
+jogo.nome?.toLocaleLowerCase();
 

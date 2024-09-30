@@ -154,4 +154,28 @@ function normalizar(valor) {
 function arredondaParaCima(arg) {
     return typeof arg === 'number' ? Math.ceil(arg) : Math.ceil(+arg).toString();
 }
-/* console.log(arredondaParaCima('11.21314')) */
+async function fetchCursos() {
+    const response = await fetch('https://api.origamid.dev/json/cursos.json');
+    const data = response.json();
+    handleCursos(data);
+}
+fetchCursos();
+function isCurso(curso) {
+    if (curso &&
+        typeof curso === 'object' &&
+        'nome' in curso) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+function handleCursos(data) {
+    if (Array.isArray(data))
+        data.filter(item => isCurso(item)).forEach(item => document.body.innerHTML += `
+			<h2>Nome: ${item.nome}</h2>
+			<p>Horas: ${item.horas}</p>
+			<span>Nível: ${item.nivel}</span>
+			`);
+}
+// Type Assertion

@@ -1,6 +1,5 @@
-import { fetchData } from "./fetchData.js";
 import { Statistic } from "./Statistic.js";
-import { API_URL, fillObjectList, normalize, OriginalPayment, Payment } from "./utils.js";
+import { API_URL, fetchData, fillObjectList, normalize, OriginalPayment, Payment } from "./utils.js";
 
 async function handleData(){
 	const data = await fetchData<OriginalPayment[]>(API_URL);
